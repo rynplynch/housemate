@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:alpine
+    user: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./housemate.sql:/docker-entrypoint-initdb.d/base.sql
+    environment:
+      - POSTGRES_PASSWORD=password
