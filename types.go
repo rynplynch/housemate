@@ -16,11 +16,11 @@ type Roommate struct {
 }
 
 type Bill struct {
-	ID          int64
-	Creditor    int64
-	Debtor      int64
-	Amount      string
-	Paid        string
-	Description string
-	Due         time.Time
+	ID          int64     `form:"ID"`
+	Creditor    int64     `form:"Creditor"`
+	Debtor      int64     `form:"Debtor"`
+	Amount      string    `form:"Amount"`
+	Paid        string    `form:"Paid"`
+	Description string    `form:"Description"`
+	Due         time.Time `form:"Due"`
 }

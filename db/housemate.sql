@@ -52,7 +52,7 @@ VALUES
 INSERT INTO bills
   (Creditor, Debtor, Amount, Description, Due)
 VALUES
-  (3, 1, 54.50, 'bill 1', now()),
-  (3, 1, 32.16, 'bill 2', now()),
-  (2, 1, 78.94, 'bill 3', now()),
-  (2, 1, 12.47, 'bill 4', now());
+  (3, 1, 54.50, 'bill 1', now() + INTERVAL '5 days'),
+  (3, 1, 32.16, 'bill 2', now() + INTERVAL '6 days'),
+  (2, 1, 78.94, 'bill 3', now() + INTERVAL '7 days'),
+  (2, 1, 12.47, 'bill 4', now() + INTERVAL '8 days');
