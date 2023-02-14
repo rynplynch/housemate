@@ -1,9 +1,11 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 	"sort"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,6 +41,10 @@ func (backend Backend) OnPay(c *gin.Context) {
 	backend.BillPage(c)
 }
 
+func formatAsDuedate(t time.Time) string {
+	return t.Local().Format("Monday, January 2 | 3:04 PM")
+}
+
 func main() {
 	var backend Backend
 	var err error
@@ -50,6 +56,9 @@ func main() {
 	}
 
 	router := gin.Default()
+	router.SetFuncMap(template.FuncMap{
+		"formatAsDuedate": formatAsDuedate,
+	})
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/bills", backend.BillPage)
 	router.POST("/bills", backend.OnPay)
