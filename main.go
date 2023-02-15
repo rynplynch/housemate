@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	//needed for communication with frontend
+	"github.com/gin-contrib/cors"
 )
 
 type Backend struct {
@@ -56,6 +58,16 @@ func main() {
 	}
 
 	router := gin.Default()
+	//using default config for cors
+	config := cors.DefaultConfig()
+	//modify default config with our origin
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	//setting router to use cors with new config
+	// To be able to send tokens to the server.
+	config.AllowCredentials = true
+	// OPTIONS method for ReactJS
+	config.AddAllowMethods("OPTIONS")
+	router.Use(cors.New(config))
 	router.SetFuncMap(template.FuncMap{
 		"formatAsDuedate": formatAsDuedate,
 	})

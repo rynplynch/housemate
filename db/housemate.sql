@@ -34,25 +34,3 @@ CREATE TABLE bills (
   CHECK (Amount > 0),
   CHECK (Paid >= 0 AND Paid <= Amount)
 );
-
-
-INSERT INTO households
-  (Name)
-VALUES
-  ('household 1'),
-  ('household 2');
-
-INSERT INTO roommates
-  (Household, Name, Email, Password)
-VALUES
-  (1, 'user 1', 'x', 'abc'),
-  (2, 'user 2', 'y', 'def'),
-  (2, 'user 3', 'z', 'ghi');
-
-INSERT INTO bills
-  (Creditor, Debtor, Amount, Description, Due)
-VALUES
-  (3, 1, 54.50, 'bill 1', now() + INTERVAL '5 days'),
-  (3, 1, 32.16, 'bill 2', now() + INTERVAL '6 days'),
-  (2, 1, 78.94, 'bill 3', now() + INTERVAL '7 days'),
-  (2, 1, 12.47, 'bill 4', now() + INTERVAL '8 days');
