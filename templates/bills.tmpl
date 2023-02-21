@@ -1,9 +1,0 @@
-<html>
-	{{ range .data }}
-		<form action="/pay" method="post">
-			<label for="ID">{{ .Description }}</label>
-			<input type="hidden" value="{{ .ID }}" name="ID">
-			<input type="submit" value="Submit">
-		</form>
-	{{ end }}
-</html>
