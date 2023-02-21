@@ -6,7 +6,7 @@ class Household extends React.Component{
 
   state ={
     household: {name: 'Household Name'},
-    bills:{
+    bills:[{
       id: 1,
       creditor: 'Creditor',
       debtor: 'Debtor',
@@ -15,20 +15,23 @@ class Household extends React.Component{
       description: 'Description',
       due: 'Dec, 2nd'
     }
+           ]
   }
 
   render () {
+      const i = 0;
+    const bills = this.state.bills.map((d) => d.amount);
     return (
       <div className="Household">
         <h1>{this.state.household.name}</h1>
         <Bills
-          id={this.state.bills.id}
-          creditor={this.state.bills.creditor}
-          debtor={this.state.bills.debtor}
-          amount={this.state.bills.amount}
-          paid={this.state.bills.paid}
-          description={this.state.bills.body}
-          due={this.state.bills.due}/>
+          id={this.state.bills[i].id}
+          creditor={this.state.bills[i].creditor}
+          debtor={this.state.bills[i].debtor}
+          amount={this.state.bills[i].amount}
+          paid={this.state.bills[i].paid}
+          description={this.state.bills[i].body}
+          due={this.state.bills[i].due}/>
       </div>
     )
   };

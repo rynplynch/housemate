@@ -1,30 +1,21 @@
 import * as React from "react";
+import Card from 'react-bootstrap/Card';
 
 const bills = (props) => {
 
     return (
-      <div className="Bills">
-        <h1>{props.id}</h1>
-         <h2>
-          {props.creditor}
-         </h2>
-         <h2>
-          {props.debtor}
-         </h2>
-         <h2>
-          {props.amount}
-         </h2>
-         <h2>
-          {props.paid}
-         </h2>
-         <h2>
-          {props.body}
-         </h2>
-         <h2>
-           {props.due}
-         </h2>
-      </div>
-    )
+      <Card>
+        <Card.Body>
+          <Card.Title>{props.id}</Card.Title>
+          <Card.Body>{props.creditor}</Card.Body>
+          <Card.Body>{props.debtor}</Card.Body>
+          <Card.Body>{props.amount}</Card.Body>
+          <Card.Body>{props.paid}</Card.Body>
+          <Card.Body>{props.description}</Card.Body>
+          <Card.Body>{props.due}</Card.Body>
+        </Card.Body>
+      </Card>
+    );
 }
 
 export default bills;
