@@ -3,10 +3,10 @@
 DC = docker compose -f db/compose.yaml
 
 all:
-	@go run .
+	@cd backend && go run .
 
 test:
-	@go test -v
+	@cd backend && go test -v
 
 start:
 	@$(DC) up -d
