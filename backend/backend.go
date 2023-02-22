@@ -13,13 +13,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type Backend struct {
+	database Database
+}
 type ApiError struct {
 	Code    int
 	Message string
-}
-
-type Backend struct {
-	database Database
 }
 
 var InputError = ApiError{
