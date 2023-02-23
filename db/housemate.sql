@@ -10,7 +10,7 @@ CREATE TABLE roommates (
   Name        VARCHAR(256) NOT NULL,
   Email       VARCHAR(256) NOT NULL,
   Password    VARCHAR(128) NOT NULL,
-  Household   INT,
+  Household   INT DEFAULT 1,
 
   PRIMARY KEY (ID),
   FOREIGN KEY (Household) REFERENCES households (ID) ON DELETE SET NULL,
@@ -53,8 +53,8 @@ INSERT INTO roommates
   (Name, Email, Password, Household)
 VALUES
   ('John Doe',   'johndoe@gmail.com',   '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 1),
-  ('Jane Doe',   'janedoe@gmail.com',   '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 2),
-  ('Adam Smith', 'adamsmith@gmail.com', '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 2);
+  ('Jane Doe',   'janedoe@gmail.com',   '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 1),
+  ('Adam Smith', 'adamsmith@gmail.com', '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 1);
 
 INSERT INTO bills
   (Creditor, Debtor, Amount, Description, Due)

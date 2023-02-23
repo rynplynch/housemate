@@ -1,18 +1,10 @@
 .POSIX:
 
-DC = docker compose -f db/compose.yaml
-
 all:
-	@cd backend && go run .
-
-test:
-	@cd backend && go test -v
-
-start:
-	@$(DC) up -d
+	@docker compose up
 
 stop:
-	@$(DC) down
+	@docker compose down
 
-connect:
-	@$(DC) exec db psql
+build:
+	@docker compose build -q --no-cache
