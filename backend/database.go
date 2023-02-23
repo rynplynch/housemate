@@ -28,12 +28,12 @@ type Database struct {
 	handle *sql.DB
 }
 
-func databaseConnect() (Database, error) {
-	const source = "user=postgres password=password sslmode=disable"
+func databaseConnect(host string) (Database, error) {
+	const source = "user=postgres password=password sslmode=disable host="
 	var db Database
 	var err error
 
-	db.handle, err = sql.Open("postgres", source)
+	db.handle, err = sql.Open("postgres", source + host)
 	return db, err
 }
 

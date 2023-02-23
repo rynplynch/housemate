@@ -46,15 +46,18 @@ var DatabaseError = ApiError{
 const RoommateKey = "RoommateID"
 
 func setupRouter() (*gin.Engine, error) {
-	var secret string
+	var secret, host string
 	var err error
 	var b Backend
 
-	if b.database, err = databaseConnect(); err != nil {
-		return nil, err
-	}
 	if secret = os.Getenv("COOKIE_SECRET"); secret == "" {
 		secret = "TODO"
+	}
+	if host = os.Getenv("POSTGRES_HOST"); host == "" {
+		host = "localhost"
+	}
+	if b.database, err = databaseConnect(host); err != nil {
+		return nil, err
 	}
 
 	r := gin.New()
