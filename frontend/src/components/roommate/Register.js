@@ -10,7 +10,7 @@ function Register(props) {
       <div>User Email:</div>
       <input value={props.email} onChange={props.inEmail} />
       <div>User Password:</div>
-      <input value={props.pass} onChange={props.inPass} />
+      <input type="password" value={props.pass} onChange={props.inPass} />
     </div>
   )
 }

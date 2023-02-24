@@ -1,27 +1,21 @@
 import React, {useState} from 'react';
-import DisplayBills from './components/bills/DisplayBill'
-import {useForm} from 'react-hook-form'
-// import CreateBill from './components/bills/CreateBill'
+import CreatedBill from './components/bills/CreatedBill'
+import TestBill from './components/bills/TestBill'
+import CreateBill from './components/bills/CreateBill'
 import { useNavigate } from 'react-router-dom';
+import style, {} from 'styled-components';
 
 //endpoints for backend
 //not sure if these will work in production
 //so putting them here for easy changing
 const ASS_URL = '/assigned';
-const BILL_URL = '/bill';
+const LOAN_URL = '/created';
 
 function Dash() {
+
   //setting state for used variables
   const [bills,setBills] = useState([]);
-
-  //setting state for bill creation
-  // const [debtor, setDebtor] = useState(0);
-  // const [amount, setAmount] = useState('');
-  // const [desc, setDesc] = useState('');
-  // const [due, setDue] = useState('');
-
-  //navigator that redirects to new page
-  const navigate = useNavigate();
+  const [loans,setLoans] = useState([]);
 
   //GET assigned
   const getAss= () => {
@@ -30,90 +24,98 @@ function Dash() {
     })
       .then( response => response.json() )
       .then( data => {
-        // if(!data.bills==null)
+        if(data.bills!=null)
           setBills(data.bills);
         console.log(data.bills);
-      });
+      })
+      .catch( e => console.log(e) )
   }
 
-  // const dummyBill = {
-  //   "debtor": 2,
-  //   "amount": "50",
-  //   "description": "a test bill",
-  //   "due": "2023-02-26T07:27:19.252518Z"
-  // }
-  //POST bill
-  // logout by moving back to homepage TODO: new endpoint which deletes cookie
+  const getLoan= () => {
+    fetch(LOAN_URL, {
+      credentials: 'include'
+    })
+      .then( response => response.json() )
+      .then( data => {
+        if(data.bills!=null)
+          setLoans(data.bills);
+        if(data.bills == null) setLoans([]);
+      })
+      .catch( e => console.log(e) )
+  }
+
+  //navigator that redirects to new page
+  const navigate = useNavigate();
+
+
   const logout = () => {
     navigate('/')
   }
-
-  //handlers for user input on bill creation
-  // const inDebtor = (event) => {
-  //   setDebtor(event.target.value)
-  // }
-  // const inAmount = () => {
-  //   setAmount(event.target.value)
-  // }
-  // const inDesc = () => {
-  //   setDesc(event.target.value)
-  // }
-  // const inDue= () => {
-  //   setDue(event.target.value)
-  // }
-  const { register, handleSubmit } = useForm();
-  const handleRegistration = (data) => {
-    fetch(BILL_URL, {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(data)
-    })
- }
+  const CompWrap = style.div`
+padding: 5px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+`
+  const DashWrap = style.div`
+  align-items: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
+`
   return (
-    <div>
+   <div>
+     <DashWrap>
+    <CompWrap>
       <button onClick={logout}>Logout</button>
-      <h1>WORKING DEMO</h1>
+    </CompWrap>
 
-    <form onSubmit={handleSubmit(handleRegistration)}>
-      <div>
-        <label>debtor</label>
-        <input type="number" name="debtor" {...register('debtor', {
-          valueAsNumber: true,
-        })} />
-      </div>
-      <div>
-        <label>amount</label>
-        <input  name="amount" {...register('amount')} />
-      </div>
-      <div>
-        <label>description</label>
-        <input name="description" {...register('description')} />
-      </div>
-      <div>
-        <label>due</label>
-        <input  name="due" {...register('due')} />
-      </div>
-      <button>Submit</button>
-    </form>
+    <CompWrap>
+      <h1>DashBoard</h1>
+    </CompWrap>
 
-      {/* <CreateBill debtor={debtor} inDebtor={inDebtor} */}
-      {/*             amount={amount} inAmount={inAmount} */}
-      {/*             desc={desc} inDesc={inDesc} */}
-      {/*             due={due} inDue={inDue}/> */}
-        <button onClick={getAss}> Get associated bills</button>
-            {bills.map((bill) => {
-            return (
-              <div key={bill.id}>
-              <DisplayBills
-                amount={bill.amount}
-                creditor={bill.creditor}
-                description={bill.description}
-                due={bill.due}/>
-              </div>
-          );
-        })}
-    </div>
-  );
+    <CompWrap>
+      <CreateBill />
+    </CompWrap>
+
+    <CompWrap>
+      <button onClick={getAss}> Get Your Bills</button>
+    </CompWrap>
+
+    <CompWrap>
+      {bills.map((bill) => {
+        return (
+          <TestBill
+          key={bill.id}
+          amount={bill.amount}
+          creditor={bill.creditor}
+          description={bill.description}
+          due={bill.due}/>
+        );
+      })}
+    </CompWrap>
+
+     <CompWrap>
+      <button onClick={getLoan}> Get Loans Made</button>
+     </CompWrap>
+
+    <CompWrap>
+    {loans.map((loan) => {
+      return (
+      <CreatedBill
+        key={loan.id}
+        id = {loan.id}
+        amount={loan.amount}
+        creditor={loan.creditor}
+        debtor={loan.debtor}
+        description={loan.description}
+        due={loan.due}/>
+      );
+    })}
+    </CompWrap>
+    </DashWrap>
+  </div>
+    );
 }
 
 export default Dash;

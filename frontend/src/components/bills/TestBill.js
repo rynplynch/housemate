@@ -3,7 +3,7 @@ import styled, {} from 'styled-components';
 import PropTypes from 'prop-types';
 
 
-const CreatedBill = (props) => {
+const TestBills = (props) => {
   const Card = styled.div`
 border: 1px solid black;
 border-radius: 5px;
@@ -29,7 +29,7 @@ margin: 5px;
     <Title>{props.description} </Title>
     <Date>{props.due}</Date>
       <Description>Amount: {props.amount}</Description>
-      <Description>Debtor: {props.creditor}</Description>
+      <Description>Creditor: {props.creditor}</Description>
     </Card>
     // <Card style={{width: '18rem'}} bg='light' key={props.id}>
     // <ListGroup>
@@ -43,12 +43,12 @@ margin: 5px;
 }
 
 //validation of prop types
-CreatedBill.propTypes = {
-  id: PropTypes.id,
+TestBills.propTypes = {
+  id: PropTypes.func,
   amount: PropTypes.string,
   creditor: PropTypes.number,
   description: PropTypes.string,
   due: PropTypes.string
 }
 
-export default CreatedBill;
+export default TestBills;

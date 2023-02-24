@@ -1,31 +1,60 @@
 import React, {} from 'react';
-import PropTypes from 'prop-types';
+import {useForm} from 'react-hook-form';
+import Style, {} from 'styled-components';
+import moment from 'moment';
 
-function CreateBill(props) {
+const BILL_URL = '/bill';
+function CreateBill() {
 
+  const { register, handleSubmit } = useForm();
+  const postBill = (data) => {
+    fetch(BILL_URL, {
+      method: 'POST',
+      credentials: 'include',
+      // body: JSON.stringify(data)
+      body: JSON.stringify({
+        amount: data.amount,
+        debtor: data.debtor,
+        description: data.description,
+        due: moment().toISOString(data.due)
+      })
+
+    })
+      .then(response => console.log(response))
+ }
+
+const Wrapper = Style.section`
+padding: 1em;
+background-color: #22313f ;
+border-radius: 5px;
+`
   return (
-    <div>
-      <input type="number" value={props.debtor} onChange={props.inDebtor} />
-      <div>Amount: </div>
-      <input value={props.amount} onChange={props.inAmount} />
-      <div>Description of bill: </div>
-      <input value={props.desc} onChange={props.inDesc} />
-      <div>When its due: </div>
-      <input value={props.due} onChange={props.inDue} />
-    </div>
+    <Wrapper>
+    <form onSubmit={handleSubmit(postBill)}>
+      <h1> Bill Creation </h1>
+      <div>
+        <label>debtor</label>
+        <input type="number" name="debtor" {...register('debtor', {
+          valueAsNumber: true,
+        })}/>
+      </div>
+      <div>
+        <label>amount</label>
+        <input  name="amount" {...register('amount')} />
+      </div>
+      <div>
+        <label>description</label>
+        <input name="description" {...register('description')} />
+      </div>
+      <div>
+        <label>due</label>
+        <input type="datetime-local" name="due" {...register('due')} />
+      </div>
+      <button>Submit</button>
+    </form>
+    </Wrapper>
   )
 }
 
-// validation of prop types
-CreateBill.propTypes = {
-  debtor: PropTypes.number,
-  amount: PropTypes.string,
-  desc: PropTypes.string,
-  due: PropTypes.string,
-  inDebtor: PropTypes.func,
-  inAmount: PropTypes.func,
-  inDesc: PropTypes.func,
-  inDue: PropTypes.func
-}
 
 export default CreateBill;

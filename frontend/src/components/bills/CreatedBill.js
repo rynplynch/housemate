@@ -1,4 +1,4 @@
-import React, { } from 'react';
+import React, {  } from 'react';
 import styled, {} from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,7 @@ const CreatedBill = (props) => {
 border: 1px solid black;
 border-radius: 5px;
 background-color: #8dc6ff;
-padding: 10px;
+padding: 5px;
 margin: 5px;
 `
     const Title = styled.h2`
@@ -24,12 +24,27 @@ margin: 5px;
     color: #fff;
     font-weight: 300;
     `
+
+  const rmBill = () => {
+    fetch(`/bill/${props.id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    })
+      .then( response => {
+        if(response.status == 200)
+          alert('Bill Deleted')
+      })
+      .catch( e => console.log(e) )
+    }
+
+
   return (
     <Card>
     <Title>{props.description} </Title>
     <Date>{props.due}</Date>
       <Description>Amount: {props.amount}</Description>
-      <Description>Debtor: {props.creditor}</Description>
+      <Description>Debtor: {props.debtor}</Description>
+      <button onClick={rmBill}>DELETE</button>
     </Card>
     // <Card style={{width: '18rem'}} bg='light' key={props.id}>
     // <ListGroup>
@@ -44,9 +59,10 @@ margin: 5px;
 
 //validation of prop types
 CreatedBill.propTypes = {
-  id: PropTypes.id,
+  id: PropTypes.number,
   amount: PropTypes.string,
   creditor: PropTypes.number,
+  debtor: PropTypes.number,
   description: PropTypes.string,
   due: PropTypes.string
 }
