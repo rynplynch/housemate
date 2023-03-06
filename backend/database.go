@@ -14,7 +14,6 @@ type Roommate struct {
 	Password  string        `json:"password,omitempty"`
 	Household sql.NullInt64 `json:"-"`
 }
-
 type Bill struct {
 	ID          int64     `json:"id"`
 	Creditor    int64     `json:"creditor"`
@@ -23,7 +22,6 @@ type Bill struct {
 	Description string    `json:"description"`
 	Due         time.Time `json:"due"`
 }
-
 type Database struct {
 	handle *sql.DB
 }
@@ -33,7 +31,7 @@ func databaseConnect(host string) (Database, error) {
 	var db Database
 	var err error
 
-	db.handle, err = sql.Open("postgres", source + host)
+	db.handle, err = sql.Open("postgres", source+host)
 	return db, err
 }
 
