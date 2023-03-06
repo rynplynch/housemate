@@ -1,6 +1,6 @@
 import './App.css';
 import React, {} from 'react'
-import Dash from './Dash'
+import Dash from './pages/Dashboard'
 import HomePage from './pages/HomePage'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Routes >
         <Route  exact path='/' element={<HomePage />} />
-        <Route exact path='/dash' element={<Dash />} />
+        <Route exact path='/dashboard' element={<Dash />} />
       </Routes>
     </Router>
     </div>

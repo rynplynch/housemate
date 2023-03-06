@@ -37,9 +37,9 @@ function HomePage() {
         "password": pass
       })
     })
-    //if the POST us successful then reroute to dashboard
+    //if the POST is successful then reroute to dashboard
       .then( response => {
-        if (response.status == 200) navigate('/dash')
+        if (response.status == 200) navigate('/dashboard')
       })
       .catch(e => console.log(e));
 
