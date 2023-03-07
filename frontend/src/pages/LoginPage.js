@@ -1,17 +1,15 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import Register from './../components/roommate/Register'
+import Register from './../components/roommate/Login'
 
-const REG_URL = '/register';
 const LOG_URL = '/login';
 
 
 
-function HomePage() {
+function LoginPage() {
   // declare state variables to hold user inputs
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const [name, setName] = useState('');
 
   //navigator that redirects to new page
   const navigate = useNavigate();
@@ -22,9 +20,6 @@ function HomePage() {
   };
   const inPass = (event) => {
     setPass(event.target.value);
-  };
-  const inName = (event) => {
-    setName(event.target.value);
   };
 
   //handle login POST
@@ -45,29 +40,16 @@ function HomePage() {
 
   }
 
-  //handle register POST
-  const regUser = () => {
-    fetch(REG_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        "name": name,
-        "email": email,
-        "password": pass
-      })
-    })
-    //if the POST then alert user
-      .then( response => {
-        if (response.status == 200) alert("USER REGISTERED!");
-      })
-      .catch(e => console.log(e));
+  const goToReg = (event) => {
+    event.preventDefault
+    navigate('/register')
   }
-
   return (
     <>
-      <Register email={email} inEmail={inEmail} pass={pass} inPass={inPass} name={name} inName={inName}/>
+      <Register email={email} inEmail={inEmail} pass={pass} inPass={inPass}/>
       <button onClick={logUser}>Login User</button>
-      <button onClick={regUser}>Register New User</button>
+      <button onClick={goToReg}>Go to user registration</button>
     </>
   );}
 
-export default HomePage;
+export default LoginPage;

@@ -3,22 +3,22 @@ import {Card, Title, Date, Description} from './Loan.style'
 import PropTypes from 'prop-types';
 
 
-const Loan = ({ id, amount, debtor, description, due, deleteLoan}) => {
+const Loan = ({ id, amount, debtor, description, due, diffTime, deleteLoan}) => {
 
   const handleClick = e => {
     e.preventDefault()
-    console.log("DELETE?")
     deleteLoan(id)
   }
 
 
   return (
     <Card>
-    <Title>{description} </Title>
-    <Date>{due}</Date>
+      <Title>{debtor}, owes you</Title>
+      <Date >They have till: {due.toDateString()}</Date>
+      <Date>Days till due: {diffTime}</Date>
       <Description>Amount: {amount}</Description>
-      <Description>Debtor: {debtor}</Description>
-      <button onClick={handleClick}>DELETE</button>
+      <Description>Desciption: {description}</Description>
+      <button onClick={handleClick}>DELETE LOAN</button>
     </Card>
   )
 }
@@ -27,10 +27,11 @@ const Loan = ({ id, amount, debtor, description, due, deleteLoan}) => {
 Loan.propTypes = {
   id: PropTypes.number,
   amount: PropTypes.string,
-  debtor: PropTypes.number,
+  debtor: PropTypes.string,
   description: PropTypes.string,
-  due: PropTypes.string,
+  due: PropTypes.object,
   BILL_URL: PropTypes.string,
+  diffTime: PropTypes.number,
   deleteLoan: PropTypes.func
 }
 

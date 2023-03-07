@@ -1,7 +1,9 @@
 import React, {} from 'react';
 import {PropTypes} from 'prop-types';
 
-function BillForm({debtor, setDebtor, amount, setAmount, desc, setDesc, due, setDue, postBill}) {
+function BillForm({setDebtor, amount, setAmount,
+                   desc, setDesc, due, setDue, postBill,
+                   mates, creditor}) {
   const handleSubmit = e => {
     e.preventDefault()
     postBill();
@@ -9,17 +11,27 @@ function BillForm({debtor, setDebtor, amount, setAmount, desc, setDesc, due, set
   return (
     <form onSubmit={handleSubmit}>
       <h2> Bill Creation </h2>
-      <label>debtor</label>
-      <input
-        type="number"
-        name="debtor"
-        value={debtor}
+      <select
+        selected="selected"
+        name="debtors"
+        id="debtors"
         onChange={(e) => {
           const temp = parseInt(e.target.value)
           if (!isNaN(temp))
             setDebtor(temp)
         }}
-      />
+
+      >
+        <optgroup label="Roommates">
+        {mates.map((mates) => {
+          if( creditor != mates.id){
+            return (
+              <option key={"name"+mates.id} value={mates.id}> {mates.name} </option>
+            );
+          }
+        })}
+    </optgroup>
+    </select>
       <label>amount</label>
       <input
         name="amount"
@@ -46,7 +58,7 @@ function BillForm({debtor, setDebtor, amount, setAmount, desc, setDesc, due, set
 
 //validation of prop types
 BillForm.propTypes = {
-  debtor: PropTypes.number,
+creditor: PropTypes.number,
   setDebtor: PropTypes.func,
   amount: PropTypes.string,
   setAmount: PropTypes.func,
@@ -54,7 +66,8 @@ BillForm.propTypes = {
   setDesc: PropTypes.func,
   due: PropTypes.string,
   setDue: PropTypes.func,
-  postBill: PropTypes.func
+  postBill: PropTypes.func,
+  mates: PropTypes.array,
 }
 
 export default BillForm;
