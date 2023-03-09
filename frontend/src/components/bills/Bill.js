@@ -1,5 +1,6 @@
 import React, { } from 'react';
 import {Card, Title, Date, Description} from './Bill.style'
+import Payment from '../payments/Payment'
 import PropTypes from 'prop-types';
 
 
@@ -11,6 +12,7 @@ const Bill = (props) => {
       <Date>Days till due: {props.diffTime}</Date>
       <Description>Amount: {props.amount}</Description>
       <Description>Desciption: {props.description}</Description>
+    <Payment/>
     </Card>
   )
 }

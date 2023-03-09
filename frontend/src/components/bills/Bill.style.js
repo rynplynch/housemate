@@ -14,7 +14,6 @@ font-weight: 300;
 const Date = styled.div`
 color: #22313f;
 font-weight: 300;
-margin: 6px 0;
 `
 const Description = styled.p`
 color: #fff;

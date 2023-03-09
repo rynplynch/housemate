@@ -1,10 +1,11 @@
 import React, {  } from 'react'
+import {Cards} from './Bills.style'
 import Bill from './Bill'
 import PropTypes from 'prop-types'
 
 const Bills = ({bills, mates}) => {
   return (
-    <div>
+    <Cards>
         {/* interate through the bills array */}
         {/* each bill has its value assigned to the components props */}
         {bills.map((bill) => {
@@ -27,7 +28,7 @@ const Bills = ({bills, mates}) => {
                 />
             );
         })}
-    </div>
+    </Cards>
   )
 }
 
