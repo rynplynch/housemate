@@ -1,14 +1,8 @@
 import React, { useEffect, useState} from 'react';
-import Loans from '../components/loans/Loans'
-import Bills from '../components/bills/Bills'
-import BillForm from '../components/bills/BillForm'
 import { useNavigate } from 'react-router-dom';
 
 //endpoints for backend
-const ASS_URL = 'bills/assigned';
-const LOAN_URL = 'bills/created';
-const BILL_URL = '/bill';
-const MATES_URL = 'household/roommates'
+const GET_HOUSE = 'household/'
 
 function Dash() {
 
