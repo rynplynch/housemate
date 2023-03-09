@@ -242,21 +242,37 @@ func (db Database) InsertPayment(p *Payment, u string) error {
 	return err
 }
 
-// AUTH POST /payments/validate (TODO: subtract from bill total)
+// AUTH POST /payments/validate
 func (db Database) ValidatePayment(id time.Time, bill string, valid bool, u string) error {
+	var amount string
 	var state int64
-	state = 0
 	if valid {
 		state = 1
 	}
-	_, err := db.handle.Exec(`
-	    UPDATE payments SET state = $4 WHERE state < 0 AND date = $1 AND bill IN
-	      (SELECT id FROM bills WHERE id = $2 AND creditor = $3)`,
-		id,
-		bill,
-		u,
-		state)
-	return err
+	tx, err := db.handle.Begin()
+	if err != nil {
+		return err
+	}
+
+	err = tx.QueryRow(`
+	    UPDATE payments SET state = $4 WHERE state < 0 AND date = $1 AND bill =
+	      (SELECT id FROM bills WHERE id = $2 AND creditor = $3)
+	      RETURNING amount`, id, bill, u, state).Scan(&amount)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	if !valid {
+		return tx.Commit()
+	}
+
+	_, err = tx.Exec(`
+	    UPDATE bills SET amount = amount - $1 WHERE id = $2`, amount, bill)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return tx.Commit()
 }
 
 // AUTH GET /payments/:uuid
