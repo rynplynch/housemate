@@ -1,7 +1,7 @@
 #!/bin/sh
 # depends on curl
 # use 'rm cookie' to reset session
-# example date: 2023-02-26T06:58:58.478232Z
+# example date: 2023-03-26T06:58:58.478232Z
 
 rest() {
 	method="$1"
@@ -15,48 +15,77 @@ post() {
 
 case "$1" in
 '')
-	cat <<- EOF
-	usage: $0
-	    NOT-AUTHENTICATED
-	        register
-	            [name] [email] [password]
-	        login
-	            [email] [password]
-	    AUTHENTICATED
-	        bill
-	            [debtor] [amount] [description] [due]
-	        delete
-	            [id]
-	        housemates
-	        created
-	        assigned
-	EOF
 ;; register)
-	post "$1" <<- EOF
+	post "register" <<- EOF
 	{
 		"name": "$2",
 		"email": "$3",
 		"password": "$4"
 	}
 	EOF
+;; unregister)
+	rest DELETE "register"
+
 ;; login)
-	post "$1" <<- EOF
+	post "login" <<- EOF
 	{
 		"email": "$2",
 		"password": "$3"
 	}
 	EOF
-;; bill)
-	post "$1" <<- EOF
+;; logout)
+	rest DELETE "login"
+
+;; create_household)
+	post "household" <<- EOF
 	{
-		"debtor": $2,
+		"name": "$2"
+	}
+	EOF
+;; invite)
+	post "household/invite" <<- EOF
+	{
+		"email": "$2"
+	}
+	EOF
+;; housemates)
+	rest GET "household/roommates"
+;; leave)
+	rest DELETE "household"
+
+;; bill)
+	post "bills" <<- EOF
+	{
+		"debtor": "$2",
 		"amount": "$3",
 		"description": "$4",
 		"due": "$5"
 	}
 	EOF
-;; delete)
-	rest DELETE "bill/$2"
-;; housemates|created|assigned)
-	rest GET "$1"
+;; created)
+	rest GET "bills/created"
+;; assigned)
+	rest GET "bills/assigned"
+;; delete_bill)
+	rest DELETE "bills/$2"
+
+;; create_payment)
+	post "payments" <<- EOF
+	{
+		"bill": "$2",
+		"amount": "$3"
+	}
+	EOF
+;; validate)
+	post "payments/validate" <<- EOF
+	{
+		"id": "$2",
+		"bill": "$3",
+		"valid": $4
+	}
+	EOF
+;; payments)
+	rest GET "payments/$2"
+;; delete_payment)
+	rest DELETE "payments/$2/$3"
 esac

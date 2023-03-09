@@ -6,7 +6,7 @@ case "$1" in
 'test')
 	go test -v ;;
 'start')
-	docker compose -f ../db/compose.yaml up -d ;;
+	docker compose -f ../db/compose.yaml up ;;
 'stop')
 	docker compose -f ../db/compose.yaml down ;;
 'connect')
