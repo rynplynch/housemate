@@ -50,6 +50,8 @@ case "$1" in
 	EOF
 ;; housemates)
 	rest GET "household/roommates"
+;; household)
+	rest GET "household"
 ;; leave)
 	rest DELETE "household"
 
