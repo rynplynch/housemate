@@ -166,6 +166,16 @@ func (db Database) Housemates(u string) ([]Roommate, error) {
 	return scanRoommates(rows)
 }
 
+// AUTH GET /household
+func (db Database) HouseholdName(u string) (string, error) {
+	var name string
+	row := db.handle.QueryRow(`
+	    SELECT name FROM households WHERE id IN
+	      (SELECT household FROM roommates WHERE id = $1)`, u)
+	err := row.Scan(&name)
+	return name, err
+}
+
 // AUTH DELETE /household
 func (db Database) LeaveHousehold(u string) error {
 	_, err := db.handle.Exec(`

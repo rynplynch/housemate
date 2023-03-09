@@ -73,6 +73,7 @@ func setupRouter() (*gin.Engine, error) {
 	auth.POST("/household", x.CreateHousehold)
 	auth.POST("/household/invite", x.InviteToHousehold)
 	auth.GET("/household/roommates", x.HouseholdRoommates)
+	auth.GET("/household", x.HouseholdName)
 	auth.DELETE("/household", x.LeaveHousehold)
 
 	auth.POST("/bills", x.CreateBill)
@@ -251,6 +252,21 @@ func (x Backend) HouseholdRoommates(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"roommates": roommates})
+}
+
+// AUTH GET JSON
+// - returns: current household name or null
+//
+// Does not fail
+func (x Backend) HouseholdName(c *gin.Context) {
+	id := c.MustGet(RoommateKey).(string)
+	name, err := x.database.HouseholdName(id)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"household": nil})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"household": name})
 }
 
 // AUTH DELETE
