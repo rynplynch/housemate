@@ -1,63 +1,44 @@
-CREATE TABLE households (
-  ID          SERIAL,
-  Name        VARCHAR(256) NOT NULL,
+CREATE EXTENSION pgcrypto;
 
-  PRIMARY KEY (ID)
+CREATE TABLE households (
+	id          INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+	name        VARCHAR NOT NULL,
+
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE roommates (
-  ID          SERIAL,
-  Name        VARCHAR(256) NOT NULL,
-  Email       VARCHAR(256) NOT NULL,
-  Password    VARCHAR(128) NOT NULL,
-  Household   INT DEFAULT 1,
+	id          UUID NOT NULL DEFAULT GEN_RANDOM_UUID(),
+	name        VARCHAR NOT NULL,
+	email       VARCHAR NOT NULL,
+	password    VARCHAR NOT NULL,
+	household   INT,
 
-  PRIMARY KEY (ID),
-  FOREIGN KEY (Household) REFERENCES households (ID) ON DELETE SET NULL,
-  UNIQUE (Email)
+	PRIMARY KEY (id),
+	FOREIGN KEY (household) REFERENCES households (id) ON DELETE SET NULL,
+	UNIQUE (email)
 );
 
 CREATE TABLE bills (
-  ID          SERIAL,
-  Creditor    INT NOT NULL,
-  Debtor      INT NOT NULL,
-  Amount      NUMERIC(6,2) NOT NULL,
-  Description VARCHAR(1024) NOT NULL,
-  Due         TIMESTAMP NOT NULL,
+	id          UUID NOT NULL DEFAULT GEN_RANDOM_UUID(),
+	creditor    UUID NOT NULL,
+	debtor      UUID NOT NULL,
+	amount      NUMERIC(6,2) NOT NULL,
+	description VARCHAR NOT NULL,
+	due         TIMESTAMP NOT NULL,
 
-  PRIMARY KEY (ID),
-  FOREIGN KEY (Creditor) REFERENCES roommates (ID) ON DELETE CASCADE,
-  FOREIGN KEY (Debtor)   REFERENCES roommates (ID) ON DELETE CASCADE,
-  CHECK (Amount >= 0)
+	PRIMARY KEY (id),
+	FOREIGN KEY (creditor) REFERENCES roommates (id) ON DELETE CASCADE,
+	FOREIGN KEY (debtor)   REFERENCES roommates (id) ON DELETE CASCADE,
+	CHECK (amount >= 0)
 );
 
 CREATE TABLE payments (
-  ID          SERIAL,
-  Bill        INT NOT NULL,
-  Amount      NUMERIC(6,2) NOT NULL,
-  Date        TIMESTAMP NOT NULL DEFAULT NOW(),
-  Valid       BOOL,
+	bill        UUID NOT NULL,
+	amount      NUMERIC(6,2) NOT NULL,
+	state       INT NOT NULL DEFAULT -1,
+	date        TIMESTAMP NOT NULL DEFAULT NOW(),
 
-  PRIMARY KEY (ID),
-  FOREIGN KEY (Bill) REFERENCES bills (ID) ON DELETE CASCADE
+	FOREIGN KEY (bill) REFERENCES bills (id) ON DELETE CASCADE,
+	UNIQUE(bill, date)
 );
-
-
-INSERT INTO households
-  (Name)
-VALUES
-  ('Household 1'),
-  ('Household 2');
-
-INSERT INTO roommates
-  (Name, Email, Password, Household)
-VALUES
-  ('John Doe',   'johndoe@gmail.com',   '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 1),
-  ('Jane Doe',   'janedoe@gmail.com',   '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 1),
-  ('Adam Smith', 'adamsmith@gmail.com', '$2a$10$OH02gbP9SEkB/Gb59ZUMkO1iESdrfAbm.1JP8bbrl.TUY4KwqQT5O', 1);
-
-INSERT INTO bills
-  (Creditor, Debtor, Amount, Description, Due)
-VALUES
-  (3, 2, 54.50, 'bill 1', now() + INTERVAL '3 days'),
-  (3, 2, 12.47, 'bill 2', now() + INTERVAL '5 days');
