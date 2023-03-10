@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {PropTypes} from 'prop-types';
 
 const InviteForm = ({postInv}) => {
   const [email, setEmail] = useState("");
 
 
+  const navigate = useNavigate();
+  const goToLogin = (event) => {
+    event.preventDefault
+    navigate('/login')
+  }
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -23,7 +29,7 @@ const InviteForm = ({postInv}) => {
       />
       <input type="submit" value="Submit"/>
     </form>
-      <button href='/login'>Go to Dashboard</button>
+      <button onClick={goToLogin}>Go to login</button>
     </div>
   )
 }

@@ -6,7 +6,6 @@ function BillForm({amount, setAmount,
                    mates, creditor}) {
   const [debtor, setDebtor] = useState("")
   const handleSubmit = e => {
-    console.log(debtor)
     e.preventDefault()
     postBill(debtor);
   }

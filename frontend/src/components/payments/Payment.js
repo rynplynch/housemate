@@ -1,10 +1,10 @@
 import React, {} from 'react'
 import PropTypes from 'prop-types'
 
-const Payment = ({amount, delPay, billID, id}) => {
+const Payment = ({amount, delPay, id}) => {
   const handleSubmit = (e) => {
     e.preventDefault
-    delPay(billID, id)
+    delPay(id)
   }
    // <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
  return (
@@ -19,7 +19,6 @@ const Payment = ({amount, delPay, billID, id}) => {
 
 Payment.propTypes = {
   amount: PropTypes.string,
-  billID: PropTypes.string,
   id: PropTypes.string,
   delPay: PropTypes.func
 }

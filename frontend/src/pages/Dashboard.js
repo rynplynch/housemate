@@ -11,6 +11,7 @@ const LOAN_URL = 'bills/created';
 const BILL_URL = '/bills';
 const MATES_URL = 'household/roommates'
 const INV_URL = 'household/invite'
+
 function Dash() {
 
   // useState returns two values, an array and a function
@@ -155,7 +156,7 @@ function Dash() {
         mates={mates}
       />
       <InviteForm postInv={postInv}/>
-      <Bills bills={bills} mates={mates}/>
+      <Bills bills={bills} mates={mates} getAss={getAss}/>
       <Loans loans={loans} mates={mates} deleteLoan={deleteLoan}/>
     </div>
     );

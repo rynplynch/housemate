@@ -4,9 +4,8 @@ import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import Payment from './Payment'
-import PaymentForm from './PaymentForm'
-const Payments = (props) => {
+import PayVal from './PayVal'
+const PaysVal = (props) => {
   return (
 <div>
       <Accordion>
@@ -16,11 +15,10 @@ const Payments = (props) => {
         >
           <Typography>Make a payment</Typography>
         </AccordionSummary>
-        <PaymentForm postPay={props.postPay} id={props.id}/>
         <AccordionDetails>
             {props.payments.map((payment, i) => {
             return (
-              <Payment amount={payment.amount} key={i} billID={props.id} id={payment.date} delPay={props.delPay}/>
+              <PayVal valPay={props.valPay} amount={payment.amount} key={i} billID={props.id} id={payment.date} delPay={props.valPay} state={payment.state}/>
             )
             })}
         </AccordionDetails>
@@ -30,11 +28,11 @@ const Payments = (props) => {
 }
 
 //validation of prop types
-Payments.propTypes = {
+PaysVal.propTypes = {
   payments: PropTypes.array,
   postPay: PropTypes.func,
-  delPay: PropTypes.func,
+  valPay: PropTypes.func,
   id: PropTypes.string
 }
 
-export default Payments;
+export default PaysVal;

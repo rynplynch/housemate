@@ -3,7 +3,7 @@ import {Cards} from './Bills.style'
 import Bill from './Bill'
 import PropTypes from 'prop-types'
 
-const Bills = ({bills, mates, payments, postPay, delPay}) => {
+const Bills = ({bills, mates, payments, postPay, delPay, getAss}) => {
   return (
     <Cards>
         {/* interate through the bills array */}
@@ -28,6 +28,7 @@ const Bills = ({bills, mates, payments, postPay, delPay}) => {
                 payments={payments}
                 postPay={postPay}
                   delPay={delPay}
+                  getAss={getAss}
                 />
             );
         })}
@@ -40,7 +41,8 @@ Bills.propTypes = {
     mates: PropTypes.array,
     payments: PropTypes.array,
     postPay: PropTypes.func,
-    delPay: PropTypes.func
+    delPay: PropTypes.func,
+    getAss: PropTypes.func
 }
 
 export default Bills

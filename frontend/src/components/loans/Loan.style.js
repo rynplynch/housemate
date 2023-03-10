@@ -4,6 +4,7 @@ const Card = styled.div`
 border: 1px solid black;
 border-radius: 5px;
 background-color: #8dc6ff;
+align-self: center;
 padding: 5px;
 margin: 5px;
 `
@@ -14,7 +15,6 @@ font-weight: 300;
 const Date = styled.div`
 color: #22313f;
 font-weight: 300;
-margin: 6px 0;
 `
 const Description = styled.p`
 color: #fff;
