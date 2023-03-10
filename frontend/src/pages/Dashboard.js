@@ -2,14 +2,15 @@ import React, { useEffect, useState} from 'react';
 import Loans from '../components/loans/Loans'
 import Bills from '../components/bills/Bills'
 import BillForm from '../components/bills/BillForm'
-import { useNavigate } from 'react-router-dom';
+import InviteForm from '../components/household/InviteForm'
+// import { useNavigate } from 'react-router-dom';
 
 //endpoints for backend
 const ASS_URL = 'bills/assigned';
 const LOAN_URL = 'bills/created';
-const BILL_URL = '/bill';
+const BILL_URL = '/bills';
 const MATES_URL = 'household/roommates'
-
+const INV_URL = 'household/invite'
 function Dash() {
 
   // useState returns two values, an array and a function
@@ -21,7 +22,7 @@ function Dash() {
 
   //states for bill creation
   //passed as props to BillForm
-  const [debtor, setDebtor] = useState(1);
+  // const [debtor, setDebtor] = useState('');
   const [amount, setAmount] = useState('');
   const [desc, setDesc] = useState('');
   const [dateTime, setDateTime] = useState('');
@@ -36,7 +37,7 @@ function Dash() {
         if(data.bills!=null){
           setBills([...data.bills])
         }
-        console.log("Bills: ", data.bills)
+        // console.log("Bills: ", data.bills)
       })
       .catch( e => console.log(e) )
   }
@@ -51,7 +52,7 @@ function Dash() {
         if(data.bills!=null)
           setLoans([...data.bills]);
         if(data.bills == null) setLoans([]);
-        console.log("Loans: ", data.bills)
+        // console.log("Loans: ", data.bills)
       })
       .catch( e => console.log(e) )
   }
@@ -66,13 +67,13 @@ function Dash() {
         if(data.roommates!=null)
           setMates([...data.roommates]);
         if(data.roommates == null) setMates([]);
-        console.log("Roommates: ",data.roommates)
+        // console.log("Roommates: ",data.roommates)
       })
       .catch( e => console.log(e) )
   }
 
   // POST a new bill using data from BillForm
-  const postBill = () => {
+  const postBill = (debtor) => {
     fetch(BILL_URL, {
       method: 'POST',
       credentials: 'include',
@@ -93,6 +94,23 @@ function Dash() {
       .catch(e => alert(e))
  }
 
+  const postInv = (email) => {
+    fetch(INV_URL, {
+      method: 'POST',
+      credentials: 'include',
+      // body: JSON.stringify(data)
+      body: JSON.stringify({
+        email: email
+      })
+    })
+      .then(res => {
+        if (res.status == 200) {
+          console.log(JSON.stringify(res))
+          getMates()
+        }
+      })
+      .catch(e => alert(e))
+ }
   const deleteLoan = (id) => {
     fetch(BILL_URL+`/${id}`, {
       method: 'DELETE',
@@ -109,14 +127,13 @@ function Dash() {
   // DELETE a loan based on bill id
 
   //navigator that redirects to new page
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   //logout button just takes us away from current page
   // TODO: use endpoint to remove cookie from client
-  const logout = () => {
-    navigate('/')
-  }
-
+  // const logout = () => {
+  //   navigate('/')
+  // }
   //calls api when the application first mounts
   useEffect( () => {
     getAss()
@@ -126,11 +143,8 @@ function Dash() {
 
   return (
     <div>
-      <button onClick={logout}>Logout</button>
       <h1>DashBoard</h1>
       <BillForm
-        debtor={debtor}
-        setDebtor={setDebtor}
         amount={amount}
         setAmount={setAmount}
         desc={desc}
@@ -140,6 +154,7 @@ function Dash() {
         postBill={postBill}
         mates={mates}
       />
+      <InviteForm postInv={postInv}/>
       <Bills bills={bills} mates={mates}/>
       <Loans loans={loans} mates={mates} deleteLoan={deleteLoan}/>
     </div>

@@ -34,7 +34,7 @@ function LoginPage() {
     })
     //if the POST is successful then reroute to dashboard
       .then( response => {
-        if (response.status == 200) navigate('/dashboard')
+        if (response.status == 200) navigate('/house')
       })
       .catch(e => console.log(e));
 
@@ -45,11 +45,11 @@ function LoginPage() {
     navigate('/register')
   }
   return (
-    <>
-      <Register email={email} inEmail={inEmail} pass={pass} inPass={inPass}/>
-      <button onClick={logUser}>Login User</button>
-      <button onClick={goToReg}>Go to user registration</button>
-    </>
+    <div style={{display: "block", margin: "auto", width: "8em"}}>
+        <Register email={email} inEmail={inEmail} pass={pass} inPass={inPass}/>
+        <button onClick={logUser}>Login User</button>
+        <button onClick={goToReg}>Go to user registration</button>
+    </div>
   );}
 
 export default LoginPage;

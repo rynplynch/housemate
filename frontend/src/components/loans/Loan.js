@@ -25,7 +25,7 @@ const Loan = ({ id, amount, debtor, description, due, diffTime, deleteLoan}) => 
 
 //validation of prop types
 Loan.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
   amount: PropTypes.string,
   debtor: PropTypes.string,
   description: PropTypes.string,

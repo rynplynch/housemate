@@ -11,9 +11,12 @@ const Loans = ({loans, mates, deleteLoan}) => {
             const dateDue = new Date(loan.due)
             const today = new Date()
             const diffTime = Math.ceil((dateDue-today)/(1000*60*60*24))
-            var name = ""
+            var name = "HELLO"
+          console.log(mates)
+          console.log(loan)
             mates.map((mate) => {
-                if(loan.debtor === mate.id) name = mate.name
+              console.log(mate.name)
+                if(loan.id === mate.id) name = mate.name
             })
         return (
             <Loan
