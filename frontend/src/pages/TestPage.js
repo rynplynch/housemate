@@ -1,4 +1,5 @@
 import Bills from '../components/bills/Bills'
+import Loans from '../components/loans/Loans'
 import React, { useState } from 'react'
 import { Menu, Box, AppBar, Toolbar, IconButton, Container, MenuItem, Typography} from '@mui/material/';
 import MenuIcon from '@mui/icons-material/Menu'
@@ -44,10 +45,11 @@ function Dash() {
     bill: "2",
     amount : "50"
   }
-  const bills = [bill,bill0]
+  const bills = [{}]
   const mates = [{}]
   const payments = [payment,payment0]
 
+  const loans = [bill, bill0]
   const postPay = (amount, id) => {
     console.log(amount),
     console.log(id)
@@ -56,6 +58,10 @@ function Dash() {
   const delPay = (billID, payID) => {
     console.log(billID)
     console.log(payID)
+  }
+
+  const deleteLoan = (loanID) => {
+    console.log(loanID)
   }
 
   // const logout = () => {
@@ -103,6 +109,7 @@ function Dash() {
     </Toolbar>
     </Container>
         </AppBar>
+      <Loans loans={loans} mates={mates} deleteLoan={deleteLoan}/>
       <Bills bills={bills} mates={mates} payments = {payments} postPay = {postPay} delPay={delPay}/>
     </Box>
     );
