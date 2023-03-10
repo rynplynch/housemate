@@ -16,8 +16,8 @@ type Roommate struct {
 }
 type Bill struct {
 	Id          string    `json:"id"`
-	Creditor    string    `json:"-"`
-	Debtor      string    `json:"-"`
+	Creditor    string    `json:"creditor,omitempty"`
+	Debtor      string    `json:"debtor,omitempty"`
 	Amount      string    `json:"amount"`
 	Description string    `json:"description"`
 	Due         time.Time `json:"due"`
@@ -59,17 +59,28 @@ func scanRoommates(rows *sql.Rows) ([]Roommate, error) {
 	}
 	return roommates, nil
 }
-func scanBills(rows *sql.Rows) ([]Bill, error) {
+func scanBills(rows *sql.Rows, created bool) ([]Bill, error) {
 	var bills []Bill
 
 	for rows.Next() {
+		var err error
 		var b Bill
 
-		err := rows.Scan(
-			&b.Id,
-			&b.Amount,
-			&b.Description,
-			&b.Due)
+		if created {
+			err = rows.Scan(
+				&b.Id,
+				&b.Debtor,
+				&b.Amount,
+				&b.Description,
+				&b.Due)
+		} else {
+			err = rows.Scan(
+				&b.Id,
+				&b.Creditor,
+				&b.Amount,
+				&b.Description,
+				&b.Due)
+		}
 		if err != nil {
 			return nil, err
 		}
@@ -200,27 +211,27 @@ func (db Database) InsertBill(b *Bill) error {
 // AUTH GET /bills/created
 func (db Database) BillsByCreditor(creditor string) ([]Bill, error) {
 	rows, err := db.handle.Query(`
-	    SELECT id,amount,description,due FROM bills WHERE creditor = $1`,
+	    SELECT id,debtor,amount,description,due FROM bills WHERE creditor = $1`,
 		creditor)
 
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	return scanBills(rows)
+	return scanBills(rows, true)
 }
 
 // AUTH GET /bills/assigned
 func (db Database) BillsByDebtor(debtor string) ([]Bill, error) {
 	rows, err := db.handle.Query(`
-	    SELECT id,amount,description,due FROM bills WHERE debtor = $1`,
+	    SELECT id,creditor,amount,description,due FROM bills WHERE debtor = $1`,
 		debtor)
 
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	return scanBills(rows)
+	return scanBills(rows, false)
 }
 
 // AUTH DELETE /bills/:uuid
