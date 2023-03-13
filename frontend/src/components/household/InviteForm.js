@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {PropTypes} from 'prop-types';
+import {Card, Title} from './InviteForm.style'
 
 const InviteForm = ({postInv}) => {
   const [email, setEmail] = useState("");
@@ -18,10 +19,10 @@ const InviteForm = ({postInv}) => {
   }
 
   return (
-    <div>
-    <h1>INVITE A ROOMMATE</h1>
+    <Card>
+    <Title>INVITE A ROOMMATE</Title>
     <form onSubmit={handleSubmit}>
-      <label>Name of HouseHold</label>
+      <label>Enter email of user you want to invite</label>
       <input
         name="name"
         value={email}
@@ -30,7 +31,7 @@ const InviteForm = ({postInv}) => {
       <input type="submit" value="Submit"/>
     </form>
       <button onClick={goToLogin}>Go to login</button>
-    </div>
+    </Card>
   )
 }
 

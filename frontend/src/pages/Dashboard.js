@@ -3,7 +3,9 @@ import Loans from '../components/loans/Loans'
 import Bills from '../components/bills/Bills'
 import BillForm from '../components/bills/BillForm'
 import InviteForm from '../components/household/InviteForm'
-// import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom';
+
 
 //endpoints for backend
 const ASS_URL = 'bills/assigned';
@@ -125,16 +127,16 @@ function Dash() {
       })
       .catch( e => console.log(e) )
   }
-  // DELETE a loan based on bill id
 
   //navigator that redirects to new page
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  //logout button just takes us away from current page
-  // TODO: use endpoint to remove cookie from client
-  // const logout = () => {
-  //   navigate('/')
-  // }
+  //move back to login page
+  const goToLogin = (event) => {
+    event.preventDefault
+    navigate('/login')
+  }
+
   //calls api when the application first mounts
   useEffect( () => {
     getAss()
@@ -142,9 +144,20 @@ function Dash() {
     getMates()
   }, [])
 
+const Title = styled.h1`
+color: #fff;
+font-weight: 500;
+`
+  const Header = styled.div`
+display: flex;
+justify-content: space-between;
+`
   return (
     <div>
-      <h1>DashBoard</h1>
+      <Header>
+      <Title>DashBoard</Title>
+      <button onClick={goToLogin}>Go to login</button>
+      </Header>
       <BillForm
         amount={amount}
         setAmount={setAmount}

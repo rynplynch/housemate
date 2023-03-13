@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {PropTypes} from 'prop-types';
+import {Card, Title} from './BillForm.style'
 
 function BillForm({amount, setAmount,
                    desc, setDesc, due, setDue, postBill,
@@ -10,8 +11,9 @@ function BillForm({amount, setAmount,
     postBill(debtor);
   }
   return (
+    <Card>
     <form onSubmit={handleSubmit}>
-      <h2> Bill Creation </h2>
+      <Title> Bill Creation </Title>
       <select
         selected="selected"
         name="debtors"
@@ -52,6 +54,7 @@ function BillForm({amount, setAmount,
       />
       <input type="submit" value="Submit"/>
     </form>
+    </Card>
   )
 }
 
