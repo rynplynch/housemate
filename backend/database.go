@@ -243,14 +243,15 @@ func (db Database) DeleteBill(u, id string) error {
 
 // AUTH POST /payments
 func (db Database) InsertPayment(p *Payment, u string) error {
-	_, err := db.handle.Exec(`
+	row := db.handle.QueryRow(`
 	    INSERT INTO payments (bill, amount)
 	      SELECT id,$2 FROM bills
-	      WHERE id = $1 AND amount >= $2 AND debtor = $3`,
+	      WHERE id = $1 AND amount >= $2 AND debtor = $3
+	      RETURNING date`,
 		p.Bill,
 		p.Amount,
 		u)
-	return err
+	return row.Scan(&p.Date)
 }
 
 // AUTH POST /payments/validate
